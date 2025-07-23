@@ -74,12 +74,9 @@ export default function SignupForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-full max-w-xl bg-white rounded-lg shadow-md p-8 space-y-6"
-    >
+    <form onSubmit={handleSubmit} className="w-full max-w-xl bg-white rounded-lg shadow-md p-8 space-y-6">
+      
       <h2 className="text-2xl font-bold text-center text-gray-800">Sign Up</h2>
-
       <div className="grid grid-cols-2 gap-4">
         <input
           type="text"
