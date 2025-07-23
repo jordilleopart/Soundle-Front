@@ -121,6 +121,69 @@ export default function Challenge({ date, failedAttempts, setFailedAttempts }) {
     return <p className="text-red-500">{error}</p>;
   }
 
+  // Dentro del componente principal
+  const getHintState = (hintsShown, isCorrect) => {
+    if (isCorrect) {
+      // Si la respuesta es correcta, mostrar todo sin restricciones
+      return {
+        filterLevel: 0, // Imagen sin filtro
+        showYear: true,
+        showArtist: true,
+        showSongName: true,
+      };
+    }
+
+    // Si no es correcto, manejar según las pistas mostradas
+    switch (hintsShown) {
+      case 0:
+        return {
+          filterLevel: 0, // Filtered image 
+          showYear: false,
+          showArtist: false,
+          showSongName: false,
+        };
+      case 1:
+        return {
+          filterLevel: 1, // Less filtered image
+          showYear: false, 
+          showArtist: false,
+          showSongName: false,
+        };
+
+      case 2:
+        return {
+          filterLevel: 1, 
+          showYear: true, // Show year
+          showArtist: false,
+          showSongName: false,
+        };
+      case 3:
+        return {
+          filterLevel: 2, // Unfiltered image
+          showYear: true,
+          showArtist: false,
+          showSongName: false,
+        };
+      case 4:
+      return {
+        filterLevel: 2, // Unfiltered image
+        showYear: true,
+        showArtist: true,
+        showSongName: false,
+      };
+      default:
+        return {
+          filterLevel: 2, // Imagen sin filtro
+          showYear: true,
+          showArtist: true,
+          showSongName: false,
+        };
+    }
+  };
+
+  // Obtener el estado de las pistas
+  const hintState = getHintState(hintsShown, isCorrect);
+
   return (
     <div className="flex-1 flex flex-col items-center gap-4">
       <p className="text-xl font-semibold text-white">Challenge {date || "No se recibió fecha"}</p>
@@ -129,19 +192,19 @@ export default function Challenge({ date, failedAttempts, setFailedAttempts }) {
         <>
           <TrackImage
             src={trackInfo.track_cover_url}
-            filterLevel={isCorrect ? 0 : Math.min(hintsShown, 2)} // Sin filtro si es correcto
+            filterLevel={hintState.filterLevel} // Usar el nivel de filtro según las pistas o si es correcto
             hidden={false}
           />
 
           <TrackInfo
             date={trackInfo.track_release_date}
             artist={trackInfo.track_artist}
-            showYear={hintsShown >= 1 || isCorrect} // Mostrar si es correcto
-            showArtist={hintsShown >= 2 || isCorrect} // Mostrar si es correcto
+            showYear={hintState.showYear} // Mostrar según las pistas o si es correcto
+            showArtist={hintState.showArtist} // Mostrar según las pistas o si es correcto
           />
           
           {/* Mostrar nombre de la canción si es correcto */}
-          {isCorrect && (
+          {hintState.showSongName && (
             <div className="text-center">
               <p className="text-lg font-bold text-green">Song: {trackInfo.track_name}</p>
             </div>

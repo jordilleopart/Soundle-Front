@@ -8,7 +8,7 @@ import Navbar from "../components/organisms/Navbar";
 export default function DailyChallenge() {
   const location = useLocation();
   const { date } = location.state || {}; 
-  const [failedAttempts, setFailedAttempts] = useState([]); // Solo intentos fallidos
+  const [failedAttempts, setFailedAttempts] = useState([]); // Just Failed Attempts
   
   console.log("Received date:", date); 
 
