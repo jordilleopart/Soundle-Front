@@ -218,7 +218,7 @@ export default function Challenge({ date, failedAttempts, setFailedAttempts }) {
           {/* Mostrar nombre de la canción si es correcto */}
           {hintState.showSongName && (
             <div className="text-center">
-              <p className="text-lg font-bold text-green">Song: {trackInfo.track_name}</p>
+              <p className="text-lg font-bold text-green-700">Song: {trackInfo.track_name}</p>
             </div>
           )}
         </>
