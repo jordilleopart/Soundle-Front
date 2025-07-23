@@ -72,6 +72,12 @@ export default function Challenge({ date, failedAttempts, setFailedAttempts }) {
   const handleSkip = () => {
     console.log("Skip button clicked");
     
+    if (hintsShown >= 4) {
+      setGameOver(true); // End the game after 4 hints
+      console.log("Game over! Too many hints shown.");
+      return;
+    }
+    
     const newFailedAttempt = {
       guess: "", // Skip no tiene guess
       timestamp: new Date().toLocaleTimeString()
@@ -95,6 +101,12 @@ export default function Challenge({ date, failedAttempts, setFailedAttempts }) {
       
       setFailedAttempts(prev => [...prev, newFailedAttempt]);
       setHintsShown((prev) => prev + 1);
+
+      if (hintsShown >= 4) {
+        setGameOver(true); // End the game after 4 hints
+        console.log("Game over! Too many hints shown.");
+      }
+
     } else {
       // Usuario acertó
       setIsCorrect(true);
@@ -126,7 +138,7 @@ export default function Challenge({ date, failedAttempts, setFailedAttempts }) {
     if (isCorrect) {
       // Si la respuesta es correcta, mostrar todo sin restricciones
       return {
-        filterLevel: 0, // Imagen sin filtro
+        filterLevel: 2, // Imagen sin filtro
         showYear: true,
         showArtist: true,
         showSongName: true,
@@ -214,7 +226,7 @@ export default function Challenge({ date, failedAttempts, setFailedAttempts }) {
       
       <Timer seconds={30} />
       <AudioControls onPlay={handlePlay} onSkip={handleSkip} disabled={gameOver} />
-      <AttemptBoxes total={6} current={attempts} />
+      <AttemptBoxes total={5} current={attempts} />
       <UserInput 
         value={guess} 
         onChange={handleGuessChange} 
